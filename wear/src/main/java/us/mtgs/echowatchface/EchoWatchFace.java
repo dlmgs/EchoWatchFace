@@ -32,6 +32,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -117,6 +118,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
         private int mWidth;
         private int mHeight;
         private int mCenterX;
+        private boolean is24hour = false;
 
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -231,6 +233,8 @@ public class EchoWatchFace extends CanvasWatchFaceService {
         @Override
         public void onTimeTick() {
             super.onTimeTick();
+            Log.d(t,"onTimeTick");
+            is24hour = DateFormat.is24HourFormat(getBaseContext());
             invalidate();
         }
 
@@ -271,18 +275,19 @@ public class EchoWatchFace extends CanvasWatchFaceService {
                     int hour = mTime.hour;
                     if (hour >= 12) { hour -= 12;}
                     int minute = mTime.minute;
+
                     float degree = (float) Math.toDegrees( Math.atan2(x - mCenterX, mCenterX - y) );
+                    //put negative degrees in positive form (ex: -1 is 359)
                     if (degree < 0) {
                         degree = 360+degree;
                     }
-                    Log.d(t,"tap time:"+ mTime);
                     Log.d(t,"tap degree:"+ degree);
 
                     float radius = (float) Math.sqrt((x - mCenterX)*(x - mCenterX) + (y - mCenterX)*(y - mCenterX));
+//                    Log.d(t,"tap radius:"+ radius);
 
-                    Log.d(t,"tap radius:"+ radius);
-
-                    if (radius <= (mWidth*.6f)) {
+                    //determine if tap position matches hour or minute mark
+                    if (radius <= (mWidth/4)) {
                         if (degree >= ((hour * 30) - 12) && degree <= ((hour * 30) + 12)) {
 
                             mTapCount++;
@@ -302,7 +307,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
 
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
                             // Vibrate for 500 milliseconds
-                            v.vibrate(500);
+                            v.vibrate(150);
                         }
                     }
 
@@ -325,21 +330,40 @@ public class EchoWatchFace extends CanvasWatchFaceService {
 
             // Draw H:MM in ambient mode or H:MM:SS in interactive mode.
             mTime.setToNow();
-//            String text = mAmbient
-//                    ? String.format("%d:%02d", mTime.hour, mTime.minute)
-//                    : String.format("%d:%02d:%02d", mTime.hour, mTime.minute, mTime.second);
-//            canvas.drawText(text, mXOffset, mYOffset, mTextPaint);
 
-            String hour = String.valueOf(mTime.hour);
-            if (mTime.hour < 10) {
-                hour = "0" + String.valueOf(mTime.hour);
-            }
-            String minute = String.valueOf(mTime.minute);
-            if (mTime.minute < 10) {
-                minute = "0" + String.valueOf(mTime.minute);
-            }
+            String hour = formatHourNumber(mTime.hour);
+
+            String minute = formatMinuteNumber(mTime.minute);
             canvas.drawText(hour, mCenterX, mYOffset, mTextPaint);
             canvas.drawText(minute, mCenterX, mMinYOffset, mTextPaint);
+        }
+
+        private String formatMinuteNumber(int m) {
+            String string = String.valueOf(mTime.minute);
+
+            if (mTime.minute < 10) {
+                string = "0" + String.valueOf(mTime.minute);
+            }
+
+            return string;
+        }
+
+        private String formatHourNumber(int h) {
+            int hourNumber = h;
+            if (!is24hour) {
+                if (hourNumber == 0) {
+                    hourNumber = 12;
+                } else if (hourNumber > 12) {
+                    hourNumber -= 12;
+                }
+            }
+
+            String string = String.valueOf(hourNumber);
+            if (hourNumber < 10) {
+                string = "0" + String.valueOf(hourNumber);
+            }
+
+            return string;
         }
 
         private void drawClockLines(Canvas c) {
