@@ -269,6 +269,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
 
                     mTime.setToNow();
                     int hour = mTime.hour;
+                    if (hour >= 12) { hour -= 12;}
                     int minute = mTime.minute;
                     float degree = (float) Math.toDegrees( Math.atan2(x - mCenterX, mCenterX - y) );
                     if (degree < 0) {
@@ -285,25 +286,25 @@ public class EchoWatchFace extends CanvasWatchFaceService {
                         if (degree >= ((hour * 30) - 12) && degree <= ((hour * 30) + 12)) {
 
                             mTapCount++;
-//                            mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
-//                                    R.color.background : R.color.background2));
+                            mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
+                                    R.color.background : R.color.background2));
 
                             //todo vibrate
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
                             // Vibrate for 500 milliseconds
-                            v.vibrate(500);
+                            v.vibrate(50);
                         }
                     } else {
                         if (degree >= ((minute * 6) - 3) && degree <= ((minute * 6) + 3)) {
 
                             mTapCount++;
-//                            mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
-//                                    R.color.background : R.color.background2));
+                            mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
+                                    R.color.background : R.color.background2));
 
                             //todo vibrate
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
                             // Vibrate for 500 milliseconds
-                            v.vibrate(500);
+                            v.vibrate(200);
                         }
                     }
 
