@@ -282,7 +282,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
 
                     Log.d(t,"tap radius:"+ radius);
 
-                    if (radius <= (mWidth/4)) {
+                    if (radius <= (mWidth*.6f)) {
                         if (degree >= ((hour * 30) - 12) && degree <= ((hour * 30) + 12)) {
 
                             mTapCount++;
@@ -290,7 +290,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
                                     R.color.background : R.color.background2));
 
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
-                            // Vibrate for 500 milliseconds
+                            // Vibrate for 50 milliseconds
                             v.vibrate(50);
                         }
                     } else {
@@ -302,7 +302,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
 
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
                             // Vibrate for 500 milliseconds
-                            v.vibrate(200);
+                            v.vibrate(500);
                         }
                     }
 
