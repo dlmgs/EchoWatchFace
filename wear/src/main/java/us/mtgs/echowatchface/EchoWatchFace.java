@@ -289,7 +289,6 @@ public class EchoWatchFace extends CanvasWatchFaceService {
                             mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
                                     R.color.background : R.color.background2));
 
-                            //todo vibrate
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
                             // Vibrate for 500 milliseconds
                             v.vibrate(50);
@@ -301,7 +300,6 @@ public class EchoWatchFace extends CanvasWatchFaceService {
                             mBackgroundPaint.setColor(resources.getColor(mTapCount % 2 == 0 ?
                                     R.color.background : R.color.background2));
 
-                            //todo vibrate
                             Vibrator v = (Vibrator) getBaseContext().getSystemService(Context.VIBRATOR_SERVICE);
                             // Vibrate for 500 milliseconds
                             v.vibrate(200);
