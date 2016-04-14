@@ -1,0 +1,6 @@
+{
+  "name": "Echo Watch Face",
+  "tagline": "",
+  "body": "# Echo Watch Face\r\n\r\nTouch around the center circle and the watch will vibrate when you touch where the hour hand would be located indicating the current hour. Do the same for minutes by touching the outer ring of the circle.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
