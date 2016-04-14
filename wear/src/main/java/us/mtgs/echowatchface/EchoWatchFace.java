@@ -382,8 +382,6 @@ public class EchoWatchFace extends CanvasWatchFaceService {
                 }
             }
             c.restore();
-//            c.drawCircle(mCenterX, mCenterX, 117, mTextPaint);
-//            c.drawCircle(mCenterX,mCenterX,143,mTextPaint);
         }
 
         /**
@@ -403,6 +401,7 @@ public class EchoWatchFace extends CanvasWatchFaceService {
          */
         private boolean shouldTimerBeRunning() {
 //            return isVisible() && !isInAmbientMode();
+            //not animated so always return false for now
             return false;
         }
 
